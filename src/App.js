@@ -1,26 +1,57 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import './App.module.sass';
+import style from './App.module.sass'
+import {BrowserRouter, Link, Route} from "react-router-dom";
+import HomeScreen from "./Components/Screens/HomeScreen";
+import ProductScreen from "./Components/Screens/ProductScreen";
+import React from "react";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+    const openMenu = () => {
+        document.querySelector(`.${style.sidebar}`).classList.add(style.open)
+    }
+
+    const closeMenu = () => {
+        document.querySelector(`.${style.sidebar}`).classList.remove(style.open)
+    }
+
+    return (<BrowserRouter>
+        <div className={style.grid_container}>
+            <header className={style.header}>
+                <div className={style.brand}>
+                    <button onClick={openMenu}>
+                        &#9776;
+                    </button>
+                    <Link to='/'>Amazona</Link>
+                </div>
+                <div className={style.header_links}>
+                    <a href={'#'}>Cart</a>
+                    <a href={'#'}>Sign In</a>
+                </div>
+            </header>
+            <aside className={style.sidebar}>
+                <h3>Shopping Categories</h3>
+                <button onClick={closeMenu} className={style.button_close}>x</button>
+                <ul>
+                    <li>
+                        <a href={'#'}>Pants</a>
+                    </li>
+                    <li>
+                        <a href={'#'}>Shirts</a>
+                    </li>
+                </ul>
+            </aside>
+            <main className={style.main}>
+                <div className={style.content}>
+                    <Route path={'/product/:id'} component={ProductScreen}/>
+                    <Route exact path={'/'} component={HomeScreen}/>
+                </div>
+            </main>
+            <footer className={style.footer}>
+                All right reserved.
+            </footer>
+        </div>
+    </BrowserRouter>);
 }
 
 export default App;
