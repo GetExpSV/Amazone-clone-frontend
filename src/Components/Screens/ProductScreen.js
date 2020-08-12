@@ -1,9 +1,10 @@
 import React from 'react'
-import data from '../../data'
 import {Link} from "react-router-dom";
+import img from '../../Images/d1.jpg'
 import style from './ProductScreen.module.sass'
 
 function ProductScreen(props) {
+    let data;
     const product = data.products.find(p => p._id === props.match.params.id);
     console.log(product)
     return (<div>
@@ -12,7 +13,7 @@ function ProductScreen(props) {
         </div>
         <div className={style.details}>
             <div className={style.details_image}>
-                <img src={product.image} alt={'product image'}/>
+                <img src={img} alt={'product image'}/>
             </div>
             <div className={style.details_info}>
                 <ul>
