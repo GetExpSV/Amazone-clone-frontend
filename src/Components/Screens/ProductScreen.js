@@ -1,65 +1,82 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import {Link} from "react-router-dom";
 import img from '../../Images/d1.jpg'
 import style from './ProductScreen.module.sass'
+import {useDispatch, useSelector} from "react-redux";
+import {detailsProduct} from "../../actions/productActions";
 
 function ProductScreen(props) {
-    let data;
-    const product = data.products.find(p => p._id === props.match.params.id);
-    console.log(product)
-    return (<div>
+    const [qty, setQty] = useState(1);
+    const productDetails = useSelector(state => state.productDetails);
+    const {product, loading, error} = productDetails;
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(detailsProduct(props.match.params.id));
+        return () => {
+
+        }
+    }, []);
+
+    const handleAddToCart = () =>{
+        props.history.push('/cart/' + props.match.params.id + '?qty=' + qty)
+    };
+
+    return <div>
         <div className={style.back_to_result}>
             <Link to='/'>Back to result</Link>
         </div>
-        <div className={style.details}>
-            <div className={style.details_image}>
-                <img src={img} alt={'product image'}/>
-            </div>
-            <div className={style.details_info}>
-                <ul>
-                    <li>
-                        <h4>{product.name}</h4>
-                    </li>
-                    <li>
-                        {product.rating} Stars ({product.numReviews} Reviews)
-                    </li>
-                    <li>
-                        Price: <b>${product.price}</b>
-                    </li>
-                    <li>
-                        Description:
-                        <div>
-                            {product.description}
-                        </div>
-                    </li>
-                </ul>
-            </div>
-            <div className={style.details_action}>
-                <ul>
-                    <li>
-                        Price: ${product.price}
-                    </li>
-                    <li>
-                        Status: {product.status}
-                    </li>
-                    <li>
-                        Qty:
-                        <select>
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
-                        </select>
-                    </li>
-                    <li>
-                        <button className={style.button}>Add to Cart</button>
-                    </li>
-                </ul>
-            </div>
+        {loading ? <div>Loading...</div> : error ? <div>{error}</div> :
 
-        </div>
-    </div>)
+                <div className={style.details}>
+                    <div className={style.details_image}>
+                        <img src={img} alt={'product image'}/>
+                    </div>
+                    <div className={style.details_info}>
+                        <ul>
+                            <li>
+                                <h4>{product.name}</h4>
+                            </li>
+                            <li>
+                                {product.rating} Stars ({product.numReviews} Reviews)
+                            </li>
+                            <li>
+                                Price: <b>${product.price}</b>
+                            </li>
+                            <li>
+                                Description:
+                                <div>
+                                    {product.description}
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div className={style.details_action}>
+                        <ul>
+                            <li>
+                                Price: ${product.price}
+                            </li>
+                            <li>
+                                Status: {product.countInStock > 0 ? "In Stock" : 'Unavailable'}
+                            </li>
+                            <li>
+                                Qty:
+                                <select value={qty} onChange={(e)=> {setQty(e.target.value)}}>
+                                    {
+                                        [...Array(product.countInStock).keys()].map(n=> <option value={n+1}>{n+1}</option>)
+                                    }
+                                </select>
+                            </li>
+                            <li>
+                                {product.countInStock > 0 && <button onClick={handleAddToCart} className={style.button}>Add to Cart</button>}
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+            }
+
+    </div>
 }
 
 export default ProductScreen;
