@@ -1,0 +1,66 @@
+.cart
+  display: flex
+  flex-wrap: wrap
+  justify-content: space-between
+  align-items: flex-start
+  margin: 1rem
+
+  .cart_list
+    flex: 3 1 60rem
+
+    .cart_list_container
+      padding: 0
+      padding: 1rem
+      img
+        max-width: 10rem
+        max-height: 10rem
+
+      li
+        list-style-type: none
+        display: flex
+        justify-content: space-between
+        align-items: flex-end
+        &:first-child
+          display: flex
+          justify-content: space-between
+          align-items: flex-end
+
+        padding-bottom: 1rem
+        margin-bottom: 1rem
+        border-bottom: .1rem #808080 solid
+
+      .cart_image
+        flex: 1 1
+
+      .cart_name
+        flex: 8 1
+        a
+          text-decoration: none
+          &:hover
+            color: #ff8000
+
+
+      .cart_price
+        flex: 1 1
+        fonst-size: 2.5rem
+        text-align: right
+
+
+  .cart_action
+    flex: 1 1 20rem
+    background-color: #f8f8f8
+    border-radius: .5rem
+    padding: 1rem
+    height: 100%
+
+    .button_primary
+      padding: 1rem
+      border: .1rem #808080 solid
+      cursor: pointer
+      border-radius: 0.5rem
+      background-color: #f0c040
+      width: 100%
+      font-size: 1.6rem
+
+      &:hover
+        border: .1rem #404080 solid
